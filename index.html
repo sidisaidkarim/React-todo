@@ -1,0 +1,73 @@
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" >
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <script src="https://npmcdn.com/babel-core@5.8.38/browser.min.js"></script>
+  <script src="https://soulwire.github.io/sketch.js/js/sketch.min.js"></script>
+  <script crossorigin src="https://unpkg.com/react@15/dist/react.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@15/dist/react-dom.js"></script>
+  <title>To-Do</title>
+
+</head>
+<body>
+
+    <div class="container ">
+
+      <div id="container" class="col-md-8  ">  </div>
+    </div>
+
+<script type="text/babel">
+class Todo extends React.Component{
+  constructor(props){
+    super(props);
+    this.state={
+      listTask:[], //array of tasks to do
+      id:0,
+	  
+    }
+  }
+  //add a task by pressing Enter button
+ add (e){
+
+  if(e.key ==='Enter'){
+    
+    var obj ={};
+    obj.id=this.state.id;
+    obj.task=e.target.value;
+    this.setState({listTask:this.state.listTask.concat(obj),
+    id:this.state.id+1})
+
+}
+}
+//delete a task 
+deletetask(p){
+
+  this.setState({listTask:this.state.listTask.filter(user => user.id !== p)})
+}
+  render(){
+    const styles= {position:'absolute',left:'95%'}
+    return(
+      <div>
+        <h1>Todo List</h1>
+        <input className="form-control" type="text"  placeholder="things to do" onKeyPress={(event)=>this.add(event)}/>
+
+      <h3> { this.state.listTask.map( x=><li className="list-group-item" key={x.id}>
+        {x.task} <button className="btn-danger" style={styles}
+          onClick={()=>this.deletetask(x.id)}>X</button></li>) }</h3>
+      </div>
+    )
+  }
+}
+
+
+
+ReactDOM.render(<Todo/>,document.getElementById('container'));
+
+</script>
+
+
+</body>
+</html>
